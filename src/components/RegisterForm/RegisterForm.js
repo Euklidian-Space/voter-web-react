@@ -6,20 +6,21 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 
 import { signup } from '../../actions/session';
+import { getRegistrationErrs } from '../../reducers/session/session_selector';
 
-const fieldsReady = fields => {
-	let vals = Object.values(fields);
-	for (let i = 0; i < vals.length; i++) {
-		if (!vals[i]) return false;
-	}
-
-	return true;
-};
+// const fieldsReady = fields => {
+// 	let vals = Object.values(fields);
+// 	for (let i = 0; i < vals.length; i++) {
+// 		if (!vals[i]) return false;
+// 	}
+//
+// 	return true;
+// };
 
 const onClickHandler = (data, handler) => () => {
 	console.log(process.env.REACT_APP_API_URL);
-	if (fieldsReady(data))
-		handler(data);
+	// if (fieldsReady(data))
+	handler(data);
 }
 
 const onChange = (name, data) => e => {
@@ -39,6 +40,7 @@ const form = errs => {
 		<div>
 			{ fields.map(f => {
 				let prop = f === "Password" ? `${f.toLowerCase()}_hash` : f.toLowerCase();
+				console.log(f + " prop: ", prop);
 				return (
 					<div key={f}>
 						<TextField
@@ -73,9 +75,9 @@ class RegisterForm extends Component {
 	}
 };
 
-const mapStateToProps = ({ session }) => {
+const mapStateToProps = (state) => {
 	return {
-		errors: session.errors.registration_errs
+		errors:	getRegistrationErrs(state)
 	};
 };
 

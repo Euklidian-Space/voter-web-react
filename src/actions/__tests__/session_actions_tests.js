@@ -8,6 +8,7 @@ const store = mockStore({});
 
 const mockResponse = (status, statusText, response, token) => {
 	return new window.Response(response, {
+		test: "dootie",
 		status,
 		statusText,
 		headers: {
@@ -83,7 +84,7 @@ describe("signup", () => {
 	});
 
 	it("should return a function", () => {
-		expect(typeof signup()).toBe("function");
+		expect(typeof signup(post_data)).toBe("function");
 	});
 
 	it("should dispatch AUTHENTICATION_SUCCESS action if fetch was successfull", () => {
@@ -95,19 +96,20 @@ describe("signup", () => {
 	});
 
 	it("should dispatch REGISTRATION_ERR action if response contains an 'errors' field", () => {
-		response = {
-			errors: {
-				username: ["can't be blank"],
-				name: ["can't be blank"],
-				credential: {
-					password_hash: ["can't be blank"],
-					email: ["can't be blank"]
-				}
+		let errs = {
+			username: ["can't be blank"],
+			name: ["can't be blank"],
+			credential: {
+				password_hash: ["can't be blank"],
+				email: ["can't be blank"]
 			}
+		};
+		response = {
+			errors: errs
 		};
 
 		window.fetch = jest.fn().mockImplementation(() => {
-			return Promise.resolve(mockResponse(200, null, JSON.stringify(response)))
+			return Promise.resolve(mockResponse(422, null, JSON.stringify(response)))
 		});
 
 		return store.dispatch(signup(post_data))

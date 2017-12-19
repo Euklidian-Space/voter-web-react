@@ -4,7 +4,7 @@ const API = process.env.REACT_APP_API_URL;
 function headers() {
   // const token = JSON.parse(localStorage.getItem('token'));
 	const token = localStorage.getItem("token");
-	console.log("localStorage: " + localStorage.getItem("token"));
+	// console.log("localStorage: " + localStorage.getItem("token"));
 
   return {
     Accept: 'application/json',
@@ -16,7 +16,7 @@ function headers() {
 function parseResponse(response) {
   return response.json().then((json) => {
     if (!response.ok) {
-			console.log("!response.ok");
+			console.log(json);
       return Promise.reject(json);
     }
     return json;
@@ -42,7 +42,7 @@ export default {
   post(url, data) {
     const body = JSON.stringify(data);
 
-		return fetch(`${API}`, {
+		return fetch(`${API}${url}`, {
       method: 'POST',
 			headers: headers(),
 			body: body

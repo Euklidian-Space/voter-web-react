@@ -1,5 +1,5 @@
 const localStorageMock = {
-	getItem: jest.fn(),
+	getItem: jest.fn().mockImplementation(() => JSON.stringify("token")),
 	setItem: jest.fn(),
 	clear: jest.fn()
 };

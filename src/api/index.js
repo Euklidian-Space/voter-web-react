@@ -2,8 +2,8 @@ const API = process.env.REACT_APP_API_URL;
 //const API = 'http://localhost:4000/api';
 
 function headers() {
-  // const token = JSON.parse(localStorage.getItem('token'));
-	const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem('token'));
+	// const token = localStorage.getItem("token");
 	// console.log("localStorage: " + localStorage.getItem("token"));
 
   return {
@@ -16,7 +16,6 @@ function headers() {
 function parseResponse(response) {
   return response.json().then((json) => {
     if (!response.ok) {
-			console.log(json);
       return Promise.reject(json);
     }
     return json;

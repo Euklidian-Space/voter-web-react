@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import '../../style/App.css';
@@ -50,4 +51,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect()(App);

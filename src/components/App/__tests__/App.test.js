@@ -1,17 +1,25 @@
 
 import React from 'react';
-import { shallow } from 'enzyme';
+// import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import App from '../App';
 
 import LogIn from '../../LoginForm/Login.js';
 import RegisterForm from '../../RegisterForm/RegisterForm';
+import { shallowWithStore, mockStore } from '../../../testing_utils/fakeStore';
 
+
+let store, wrapper;
+
+beforeEach(() => {
+	store = mockStore({});
+	wrapper = shallowWithStore(<App />, store);
+});
 
 it('renders without crashing', () => {
-	const wrapper = shallow(<App />);
 	expect(wrapper).toBeTruthy();
 });
+
 
 
 xdescribe("Login component", () => {

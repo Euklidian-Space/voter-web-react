@@ -36,9 +36,6 @@ beforeEach(() => {
 	};
   post_data = {};
 
-	window.localStorage = {
-		getItem: jest.fn().mockImplementation(_token => "random_string_!@#$")
-	};
 });
 
 describe("login", () => {

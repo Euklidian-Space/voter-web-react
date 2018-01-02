@@ -1,5 +1,9 @@
 import api from "../api";
-// const API_URL = process.env.REACT_APP_API_URL;
+
+function setCurrentUser(dispatch, response) {
+	localStorage.setItem("token", JSON.stringify(response.token));
+	dispatch({ type: "AUTHENTICATION_SUCCESS", response });
+}
 
 export function login(data) {
 	return dispatch => {
@@ -23,7 +27,7 @@ export function signup({ username, name, email, password }) {
 	return dispatch => {
 		return api.post("/users", data)
 			.then(response => {
-				dispatch({ type: "AUTHENTICATION_SUCCESS", response });
+				setCurrentUser(dispatch, response);
 			}).catch(({ errors }) => {
 				dispatch({ type: "REGISTRATION_ERR", response: { errors } });
 			});

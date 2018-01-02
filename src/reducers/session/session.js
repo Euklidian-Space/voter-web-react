@@ -2,7 +2,9 @@ const initialState = {
 	isAuthenticated: false,
 	willAuthenticate: false,
 	currentUser: {
-		willRegister: false
+		willRegister: false,
+		name: null,
+		username: null
 	},
 	errors: {
 		registration_errs: null

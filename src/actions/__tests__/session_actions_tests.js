@@ -106,11 +106,11 @@ describe("signup", () => {
 		};
 
 		window.fetch = jest.fn().mockImplementation(() => {
-			return Promise.resolve(mockResponse(422, null, JSON.stringify(response)))
+			return Promise.reject(mockResponse(422, null, JSON.stringify(response)))
 		});
 
 		return store.dispatch(signup(post_data))
-			.then(() => {
+			.catch(_e => {
 				const expectedActions = store.getActions();
 				expect(expectedActions).toContainEqual({ type: "REGISTRATION_ERR", response });
 			});

@@ -6,6 +6,7 @@ import '../../style/App.css';
 
 import Login from '../LoginForm/Login';
 import RegisterForm from '../RegisterForm/RegisterForm';
+import LoginForm from '../LoginForm/LoginForm';
 import { login } from '../../actions/session';
 
 // const paper_style = {
@@ -42,6 +43,7 @@ class App extends Component {
               <div className="col-md-2 col-md-offset-4">
 								{ /* { !this.state.willRegister ? <Login btnAction={ login }/> : "" } */ }
 								<RegisterForm />
+								<LoginForm />
               </div>
             </div>
           </div>

@@ -10,3 +10,7 @@ export function getRegistrationErrs({ session }) {
 		return result;
 	}, {});
 }
+
+// export function getLoginErrs({ session }) {
+// 	return session.errors.login_errs;
+// }

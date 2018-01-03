@@ -1,4 +1,4 @@
-import { getRegistrationErrs } from "../session_selector";
+import { getRegistrationErrs, getLoginErrs } from "../session_selector";
 
 describe("sesssion selector", () => {
 	it("should return the errors present in redux state", () => {

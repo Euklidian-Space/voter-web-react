@@ -1,6 +1,7 @@
 import configureMockstore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { login, signup } from "../session";
+import { getRegistrationErrs, getLoginErrs } from '../../reducers/session/session_selector';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockstore(middlewares);
@@ -106,12 +107,14 @@ describe("signup", () => {
 		};
 
 		window.fetch = jest.fn().mockImplementation(() => {
-			return Promise.reject(mockResponse(422, null, JSON.stringify(response)))
+			return Promise.resolve(mockResponse(422, null, JSON.stringify(response)))
 		});
 
 		return store.dispatch(signup(post_data))
-			.catch(_e => {
+			.then(() => {
 				const expectedActions = store.getActions();
+				const state = store.getState();
+				console.log("state: ", state);
 				expect(expectedActions).toContainEqual({ type: "REGISTRATION_ERR", response });
 			});
 	});

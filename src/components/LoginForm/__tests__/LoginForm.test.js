@@ -23,7 +23,7 @@ describe("LoginForm", () => {
 		expect(wrapper).toBeTruthy();
 	});
 
-	it("should display a dialog box when errors are present in redux state", () => {
+	xit("should display a dialog box when errors are present in redux state", () => {
 		store = mockStore({
 			session: {
 				errors: {
@@ -37,7 +37,7 @@ describe("LoginForm", () => {
 		expect(wrapper.find(Dialog).length).toBe(1);
 	});
 
-	it("should not display a dialog box if no login errors are present in redux state", () => {
+	xit("should not display a dialog box if no login errors are present in redux state", () => {
 
 		wrapper = shallowWithStore(<LoginForm />, store);
 

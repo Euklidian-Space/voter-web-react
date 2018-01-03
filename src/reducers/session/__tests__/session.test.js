@@ -11,7 +11,8 @@ describe("session reducer", () => {
 				username: null
 			},
 			errors: {
-				registration_errs: null
+				registration_errs: null,
+				login_errs: null
 			}
 		});
 	});
@@ -87,6 +88,15 @@ describe("session reducer", () => {
 						"field2a": "err msg",
 						"field2b": "err msg"
 					}
+				}
+			});
+	});
+
+	it("should handle LOGIN_ERR", () => {
+		expect(reducer(undefined, { type: "LOGIN_ERR" }))
+			.toMatchObject({
+				errors: {
+					login_errs: "Unauthorized"
 				}
 			});
 	});

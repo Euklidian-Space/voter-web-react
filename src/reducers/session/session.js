@@ -7,7 +7,8 @@ const initialState = {
 		username: null
 	},
 	errors: {
-		registration_errs: null
+		registration_errs: null,
+		login_errs: null
 	}
 };
 
@@ -43,20 +44,18 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				errors: {
-					registration_errs: flatten(action.response.errors)
+					registration_errs: flatten(action.response.errors),
+					login_errs: state.errors.login_errs
 				}
 			};
-		// case "REGISTRATION_SUCCESS":
-		// 	return {
-		// 		...state,
-		// 		isAuthenticated: true,
-		// 		willAuthenticate: false,
-		// 		currentUser: {
-		// 			willRegister: false,
-		// 			name: action.response.data.name,
-		// 			username: action.response.data.username
-		// 		}
-		// 	};
+		case "LOGIN_ERR":
+			return {
+				...state,
+				errors: {
+					registration_errs: state.errors.registration_errs,
+					login_errs: "Unauthorized"
+				}
+			};
 		case "AUTHENTICATION_REQUEST":
 			return {
 				...state,

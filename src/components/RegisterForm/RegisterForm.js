@@ -23,7 +23,6 @@ const onClickHandler = handler => data => {
 class RegisterForm extends Component {
 	render() {
 		let errors = this.props.errors;
-		console.log(errors);
 		let props = { fields, errors, onClickHandler: onClickHandler(this.props.signup) };
 		return <Form { ...props } />;
 	}

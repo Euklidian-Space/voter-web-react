@@ -1,20 +1,22 @@
 import reducer from '../session';
 
+const initialState = {
+	isAuthenticated: false,
+	willAuthenticate: false,
+	currentUser: {
+		willRegister: false,
+		name: null,
+		username: null
+	},
+	errors: {
+		registration_errs: null,
+		login_errs: null
+	}
+};
+
 describe("session reducer", () => {
 	it("should return initial state", () => {
-		expect(reducer(undefined, {})).toEqual({
-			isAuthenticated: false,
-			willAuthenticate: false,
-			currentUser: {
-				willRegister: false,
-				name: null,
-				username: null
-			},
-			errors: {
-				registration_errs: null,
-				login_errs: null
-			}
-		});
+		expect(reducer(undefined, {})).toEqual(initialState);
 	});
 
 	it("should handle AUTHENTICATION_REQUEST", () => {
@@ -24,24 +26,6 @@ describe("session reducer", () => {
 			});
 	});
 
-	it("should handle AUTHENTICATION_SUCCESS", () => {
-		let response = {
-			data: {
-				name: "johndoe",
-				username: "doejohn"
-			}
-		};
-		expect(reducer(undefined, { type: "AUTHENTICATION_SUCCESS", response}))
-			.toMatchObject({
-				isAuthenticated: true,
-				willAuthenticate: false,
-				currentUser: {
-					name: "johndoe",
-					username: "doejohn",
-					willRegister: false
-				}
-			});
-	});
 
 	it("should handle REGISTRATION_REQUEST", () => {
 		expect(reducer(undefined, { type: "REGISTRATION_REQUEST"}))
@@ -105,5 +89,58 @@ describe("session reducer", () => {
 			});
 	});
 
+	describe("AUTHENTICATION_SUCCESS", () => {
+
+		it("should be handled", () => {
+			let response = {
+				data: {
+					name: "johndoe",
+					username: "doejohn"
+				}
+			};
+			expect(reducer(undefined, { type: "AUTHENTICATION_SUCCESS", response}))
+				.toMatchObject({
+					isAuthenticated: true,
+					willAuthenticate: false,
+					currentUser: {
+						name: "johndoe",
+						username: "doejohn",
+						willRegister: false
+					}
+				});
+		});
+
+		it("should clear all errors", () => {
+			let currentState = {
+				...initialState,
+				errors: {
+					registration_errs: { field1: "err msg" },
+					login_errs: { detail: "Unauthorized" }
+				}
+			};
+			let response = {
+				data: {
+					name: "johndoe",
+					username: "doejohn"
+				}
+			};
+
+			expect(reducer(currentState, { type: "AUTHENTICATION_SUCCESS", response }))
+				.toMatchObject({
+					...currentState,
+					isAuthenticated: true,
+					currentUser: {
+						name: "johndoe",
+						username: "doejohn",
+						willRegister: false
+					},
+					errors: {
+						registration_errs: null,
+						login_errs: null
+					}
+				});
+		});
+
+	});
 
 });

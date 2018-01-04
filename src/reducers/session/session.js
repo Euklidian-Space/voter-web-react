@@ -70,6 +70,10 @@ export default function (state = initialState, action) {
 					name: action.response.data.name,
 					username: action.response.data.username,
 					willRegister: false
+				},
+				errors: {
+					registration_errs: null,
+					login_errs: null
 				}
 			}
 		default:

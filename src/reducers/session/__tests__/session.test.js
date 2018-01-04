@@ -100,7 +100,7 @@ describe("session reducer", () => {
 		expect(reducer(undefined, { type: "LOGIN_ERR", response }))
 			.toMatchObject({
 				errors: {
-					login_errs: "Unauthorized"
+					login_errs: errs
 				}
 			});
 	});

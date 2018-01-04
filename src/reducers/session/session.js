@@ -53,7 +53,7 @@ export default function (state = initialState, action) {
 				...state,
 				errors: {
 					registration_errs: state.errors.registration_errs,
-					login_errs: "Unauthorized"
+					login_errs: action.response.errors
 				}
 			};
 		case "AUTHENTICATION_REQUEST":

@@ -12,5 +12,8 @@ export function getRegistrationErrs({ session }) {
 }
 
 export function getLoginErrs({ session }) {
-	return session.errors.login_errs;
+	const errs = session.errors.login_errs;
+	if (errs)
+		return errs.detail;
+	return null;
 }

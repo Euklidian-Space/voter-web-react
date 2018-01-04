@@ -15,16 +15,28 @@ describe("sesssion selector", () => {
 			.toMatchObject({"error": "details"});
 	});
 
-	// it("should return login errors present in redux state", () => {
-	// 	let state = {
-	// 		session: {
-	// 			errors: {
-	// 				login_errs: "Unauthorized"
-	// 			}
-	// 		}
-	// 	};
-  //
-	// 	expect(getLoginErrs(state))
-	// 		.toMatchObject({})
-	// });
+	describe("getLoginErrs", () => {
+		it("should return login errors present in redux state", () => {
+			let state = {
+				session: {
+					errors: {
+						login_errs: {"detail": "Unauthorized"}
+					}
+				}
+			};
+
+			expect(getLoginErrs(state))
+				.toBe("Unauthorized");
+		});
+
+		it("should handle null and undefined login_errs", () => {
+			let state = {
+				session: {
+					errors: { login_errs: null }
+				}
+			};
+
+			expect(getLoginErrs(state)).toBe(null);
+		});
+	})
 });

@@ -11,6 +11,6 @@ export function getRegistrationErrs({ session }) {
 	}, {});
 }
 
-// export function getLoginErrs({ session }) {
-// 	return session.errors.login_errs;
-// }
+export function getLoginErrs({ session }) {
+	return session.errors.login_errs;
+}

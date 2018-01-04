@@ -11,6 +11,8 @@ export function login(data) {
 		return api.post("/sessions", data)
 			.then(response => {
 				dispatch({ type: "AUTHENTICATION_SUCCESS", response });
+			}).catch(({ errors }) => {
+				dispatch({ type: "LOGIN_ERR", response: { errors }});
 			});
 	};
 }

@@ -2,30 +2,30 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 // import sessionReducer, { initialState as sessionState } from '../../reducers/session/session';
 import reducers from '../../reducers';
-import { getRegistrationErrs } from '../../reducers/session/session_selector';
-import { signup } from '../../actions/session';
+import { getRegistrationErrs, getLoginErrs } from '../../reducers/session/session_selector';
+import { signup, login } from '../../actions/session';
+
+const createStroreWithMiddleware = applyMiddleware(thunk)(createStore);
+
+let store;
+
+beforeEach(() => {
+	store = createStroreWithMiddleware(reducers)
+});
+
+const mockResponse = (status, statusText, response, token) => {
+	return new window.Response(response, {
+		status,
+		statusText,
+		headers: {
+			'Content-type': 'application/json',
+			'Accept': 'application/json',
+			'Authorization': `Bearer: ${token}`
+		}
+	});
+}
 
 describe("signup", () => {
-
-	const mockResponse = (status, statusText, response, token) => {
-		return new window.Response(response, {
-			status,
-			statusText,
-			headers: {
-				'Content-type': 'application/json',
-				'Accept': 'application/json',
-				'Authorization': `Bearer: ${token}`
-			}
-		});
-	}
-
-	const createStroreWithMiddleware = applyMiddleware(thunk)(createStore);
-
-	let store;
-
-	beforeEach(() => {
-		store = createStroreWithMiddleware(reducers)
-	});
 
 	it("should add registration_errs on api promise rejection", () => {
 		let response = {
@@ -56,4 +56,27 @@ describe("signup", () => {
 				expect(errs).toEqual(expected);
 			});
 	});
+});
+
+describe("login", () => {
+
+	it("should add login_errs on api promise rejection", () => {
+		const response = {
+			errors: { detail: "Unauthorized" }
+		};
+
+		const expected = "Unauthorized";
+
+		window.fetch = jest.fn().mockImplementation(() => {
+			return Promise.resolve(mockResponse(422, null, JSON.stringify(response)))
+		});
+
+		return store.dispatch(login({}))
+			.then(() => {
+				let errs = getLoginErrs(store.getState());
+				expect(errs).toEqual(expected);
+			});
+
+	});
+
 });

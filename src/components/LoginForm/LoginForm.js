@@ -4,40 +4,24 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import PropTypes from 'prop-types';
-
+import { login } from '../../actions/session';
+import { getLoginErrs } from "../../reducers/session/session_selector";
 
 class LoginForm extends Component {
-	state = {
-		open: false
-	};
 	render() {
 		const actions = [
 				<FlatButton
 					label="cancel"
 					primary={true}
-					onClick={() => this.setState({open: false})}
+					onClick={() => null}
 				/>
 		];
-		// return (
-		// 	<div>
-		// 		<RaisedButton label="Alert" onClick={() => this.setState({open: true})} />
-		// 		<Dialog
-		// 			actions={actions}
-		// 			modal={false}
-		// 			open={this.state.open}
-		// 			onRequestClose={() => this.setState({open: false})}
-		// 		>
-		// 			Discard?
-		// 		</Dialog>
-		// 	</div>
-		// );
 		return (
 			<div>
 				<Dialog
 					actions={actions}
 					modal={false}
-					open={true}
+					open={this.props.errors ? true : false}
 					onRequestClose={() => null}
 				>
 					Hello
@@ -47,10 +31,10 @@ class LoginForm extends Component {
 	}
 }
 
-// const mapStateToProps = state => {
-// 	return {
-// 		errors: state.session.
-// 	}
-// };
+const mapStateToProps = state => {
+	return {
+		errors: getLoginErrs(state)
+	};
+};
 
-export default connect()(LoginForm);
+export default connect(mapStateToProps, { login })(LoginForm);

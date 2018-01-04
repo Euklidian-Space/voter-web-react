@@ -11,7 +11,7 @@ let store;
 
 describe("LoginForm", () => {
 	store = mockStore({
-		session: { errors: { login_errs: null } }
+		session: { errors: { login_errs: {"detail": null} } }
 	});
 	let wrapper;
 
@@ -23,44 +23,23 @@ describe("LoginForm", () => {
 		expect(wrapper).toBeTruthy();
 	});
 
-	xit("should display a dialog box when errors are present in redux state", () => {
+	it("should not display a dialog box if no login errors are present in redux state", () => {
+		expect(wrapper.dive().find(Dialog).props().open).toBe(false);
+	});
+
+	it("should display a dialog box when errors are present in redux state", () => {
 		store = mockStore({
 			session: {
 				errors: {
-					login_errs: "Unauthorized"
+					login_errs: { detail: "Unauthorized" }
 				}
 			}
 		});
 
 		wrapper = shallowWithStore(<LoginForm />, store);
 
-		expect(wrapper.find(Dialog).length).toBe(1);
+		expect(wrapper.dive().find(Dialog).props().open).toBe(true);
 	});
 
-	xit("should not display a dialog box if no login errors are present in redux state", () => {
 
-		wrapper = shallowWithStore(<LoginForm />, store);
-
-		expect(wrapper.find(Dialog).length).toBe(0);
-	});
-
-	xit("should display errors that are present in redux state", () => {
-		store = mockStore({
-			session: {
-				errors: {
-					login_errs: {
-						"email": "can't be blank",
-						"password_hash": "can't be blank"
-					}
-				}
-			}
-		});
-		wrapper = shallowWithStore(<LoginForm />, store);
-
-		wrapper.dive().find(TextField).forEach(tf => {
-			if (tf.props().floatingLabelText === "Password" || tf.props().floatingLabelText === "email") {
-				expect(tf.props().errorText).toBe("can't be blank");
-			}
-		});
-	});
 });

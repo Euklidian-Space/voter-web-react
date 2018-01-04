@@ -114,7 +114,6 @@ describe("signup", () => {
 			.then(() => {
 				const expectedActions = store.getActions();
 				const state = store.getState();
-				console.log("state: ", state);
 				expect(expectedActions).toContainEqual({ type: "REGISTRATION_ERR", response });
 			});
 	});

@@ -1,4 +1,4 @@
-import { getRegistrationErrs, getLoginErrs } from "../session_selector";
+import { getRegistrationErrs, getLoginErrs, willAuthenticate } from "../session_selector";
 
 describe("sesssion selector", () => {
 	it("should return registration errors present in redux state", () => {
@@ -38,5 +38,17 @@ describe("sesssion selector", () => {
 
 			expect(getLoginErrs(state)).toBe(null);
 		});
-	})
+	});
+
+	describe("willAuthenticate", () => {
+		it("should return the willAuthenticate piece of redux state", () => {
+			let state = {
+				session: {
+					willAuthenticate: true
+				}
+			};
+
+			expect(willAuthenticate(state)).toBe(true);
+		});
+	});
 });

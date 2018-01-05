@@ -9,11 +9,15 @@ export function getRegistrationErrs({ session }) {
 
 		return result;
 	}, {});
-}
+};
 
 export function getLoginErrs({ session }) {
 	const errs = session.errors.login_errs;
 	if (errs)
 		return errs.detail;
 	return null;
-}
+};
+
+export function willAuthenticate({ session }) {
+	return session.willAuthenticate;
+};

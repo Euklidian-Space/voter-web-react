@@ -75,6 +75,14 @@ export default function (state = initialState, action) {
 					registration_errs: null,
 					login_errs: null
 				}
+			};
+		case "CLEAR_ERRS":
+			return {
+				...state,
+				errors: {
+					registration_errs: null,
+					login_errs: null
+				}
 			}
 		default:
 			return state;

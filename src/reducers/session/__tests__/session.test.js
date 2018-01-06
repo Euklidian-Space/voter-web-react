@@ -143,4 +143,24 @@ describe("session reducer", () => {
 
 	});
 
+	describe("CLEAR_ERRS", () => {
+		it("should null all errors in state", () => {
+			let currentState = {
+				...initialState,
+				errors: {
+					registration_errs: { field1: "err msg" },
+					login_errs: { detail: "Unauthorized" }
+				}
+			};
+
+			expect(reducer(currentState, { type: "CLEAR_ERRS" }))
+				.toMatchObject({
+					errors: {
+						registration_errs: null,
+						login_errs: null
+					}
+				});
+		});
+	});
+
 });

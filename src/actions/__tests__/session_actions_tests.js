@@ -1,6 +1,6 @@
 import configureMockstore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { login, signup } from "../session";
+import { login, signup, clearRegErrs, clearLoginErrs } from "../session";
 import { getRegistrationErrs, getLoginErrs } from '../../reducers/session/session_selector';
 
 const middlewares = [ thunk ];
@@ -113,8 +113,20 @@ describe("signup", () => {
 		return store.dispatch(signup(post_data))
 			.then(() => {
 				const expectedActions = store.getActions();
-				const state = store.getState();
 				expect(expectedActions).toContainEqual({ type: "REGISTRATION_ERR", response });
 			});
+	});
+});
+
+describe("clearErrors", () => {
+	it("should dispatch CLEAR_REG_ERRS", () => {
+		store.dispatch(clearRegErrs());
+		const expectedActions = store.getActions();
+		expect(expectedActions).toContainEqual({ type: "CLEAR_REG_ERRS" });
+	});
+	it("should dispatch CLEAR_LOGIN_ERRS", () => {
+		store.dispatch(clearLoginErrs());
+		const expectedActions = store.getActions();
+		expect(expectedActions).toContainEqual({ type: "CLEAR_LOGIN_ERRS" });
 	});
 });

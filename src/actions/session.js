@@ -35,3 +35,11 @@ export function signup({ username, name, email, password }) {
 			});
 	};
 }
+
+export function clearLoginErrs() {
+	return dispatch => dispatch({ type: "CLEAR_LOGIN_ERRS" });
+}
+
+export function clearRegErrs() {
+	return dispatch => dispatch({ type: "CLEAR_REG_ERRS" });
+}

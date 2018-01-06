@@ -1,18 +1,5 @@
-import reducer from '../session';
-
-const initialState = {
-	isAuthenticated: false,
-	willAuthenticate: false,
-	currentUser: {
-		willRegister: false,
-		name: null,
-		username: null
-	},
-	errors: {
-		registration_errs: null,
-		login_errs: null
-	}
-};
+import reducer, { initialState } from '../session';
+import deepFreeze from '../../../testing_utils/deepFreeze';
 
 describe("session reducer", () => {
 	it("should return initial state", () => {
@@ -111,13 +98,13 @@ describe("session reducer", () => {
 		});
 
 		it("should clear all errors", () => {
-			let currentState = {
+			let currentState = deepFreeze({
 				...initialState,
 				errors: {
 					registration_errs: { field1: "err msg" },
 					login_errs: { detail: "Unauthorized" }
 				}
-			};
+			});
 			let response = {
 				data: {
 					name: "johndoe",
@@ -143,21 +130,30 @@ describe("session reducer", () => {
 
 	});
 
-	describe("CLEAR_ERRS", () => {
-		it("should null all errors in state", () => {
-			let currentState = {
-				...initialState,
-				errors: {
-					registration_errs: { field1: "err msg" },
-					login_errs: { detail: "Unauthorized" }
-				}
-			};
+	describe("Clearing Errors", () => {
+		let currentState = deepFreeze({
+			...initialState,
+			errors: {
+				registration_errs: { field1: "err msg" },
+				login_errs: { detail: "Unauthorized" }
+			}
+		});
+		it("should handle CLEAR_LOGIN_ERRS", () => {
+			expect(reducer(currentState, { type: "CLEAR_LOGIN_ERRS" }))
+				.toMatchObject({
+					errors: {
+						registration_errs: { field1: "err msg" },
+						login_errs: null
+					}
+				});
+		});
 
-			expect(reducer(currentState, { type: "CLEAR_ERRS" }))
+		it("should handle CLEAR_REG_ERRS", () => {
+			expect(reducer(currentState, { type: "CLEAR_REG_ERRS" }))
 				.toMatchObject({
 					errors: {
 						registration_errs: null,
-						login_errs: null
+						login_errs: { detail: "Unauthorized" }
 					}
 				});
 		});

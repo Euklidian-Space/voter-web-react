@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import RegisterForm from '../RegisterForm';
-import { shallowWithStore, mockStore } from '../../../testing_utils/fakeStore';
+import { shallowWithStore, mockStore } from '../../../testing_utils/mounts';
 
 const mockResponse = (status, statusText, response, token) => {
 	return new window.Response(response, {

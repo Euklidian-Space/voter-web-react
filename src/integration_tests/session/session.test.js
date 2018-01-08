@@ -1,16 +1,13 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-// import sessionReducer, { initialState as sessionState } from '../../reducers/session/session';
 import reducers from '../../reducers';
 import { getRegistrationErrs, getLoginErrs } from '../../reducers/session/session_selector';
 import { signup, login } from '../../actions/session';
+import realStore from '../../testing_utils/integration_store';
 
-const createStroreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 let store;
 
 beforeEach(() => {
-	store = createStroreWithMiddleware(reducers)
+	store = realStore(reducers);
 });
 
 const mockResponse = (status, statusText, response, token) => {

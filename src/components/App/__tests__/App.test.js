@@ -6,7 +6,7 @@ import App from '../App';
 
 import LogIn from '../../LoginForm/Login.js';
 import RegisterForm from '../../RegisterForm/RegisterForm';
-import { shallowWithStore, mockStore } from '../../../testing_utils/fakeStore';
+import { shallowWithStore, mockStore } from '../../../testing_utils/mounts';
 
 
 let store, wrapper;

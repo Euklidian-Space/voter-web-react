@@ -9,10 +9,6 @@ import { signup } from '../../actions/session';
 import { getRegistrationErrs } from '../../reducers/session/session_selector';
 import Form from '../Form';
 
-const onChange = (name, data) => e => {
-	data[name.toLowerCase()] = e.target.value;
-};
-
 const fields = ["Name", "Username", "Email", "Password"];
 
 const onClickHandler = handler => data => {

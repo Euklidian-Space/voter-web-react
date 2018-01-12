@@ -17,9 +17,7 @@ describe("session reducer", () => {
 	it("should handle REGISTRATION_REQUEST", () => {
 		expect(reducer(undefined, { type: "REGISTRATION_REQUEST"}))
 			.toMatchObject({
-				currentUser: {
-					willRegister: true
-				}
+			  willRegister: true
 			});
 	});
 
@@ -89,10 +87,10 @@ describe("session reducer", () => {
 				.toMatchObject({
 					isAuthenticated: true,
 					willAuthenticate: false,
+					willRegister: false,
 					currentUser: {
 						name: "johndoe",
 						username: "doejohn",
-						willRegister: false
 					}
 				});
 		});
@@ -116,10 +114,10 @@ describe("session reducer", () => {
 				.toMatchObject({
 					...currentState,
 					isAuthenticated: true,
+					willRegister: false,
 					currentUser: {
 						name: "johndoe",
 						username: "doejohn",
-						willRegister: false
 					},
 					errors: {
 						registration_errs: null,

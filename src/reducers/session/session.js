@@ -1,8 +1,8 @@
 export const initialState = {
 	isAuthenticated: false,
 	willAuthenticate: false,
+	willRegister: false,
 	currentUser: {
-		willRegister: false,
 		name: null,
 		username: null
 	},
@@ -36,9 +36,7 @@ export default function (state = initialState, action) {
 		case "REGISTRATION_REQUEST":
 			return {
 				...state,
-				currentUser: {
-					willRegister: true
-				}
+				willRegister: true
 			};
 		case "REGISTRATION_ERR":
 			return {
@@ -66,10 +64,10 @@ export default function (state = initialState, action) {
 				...state,
 				isAuthenticated: true,
 				willAuthenticate: false,
+				willRegister: false,
 				currentUser: {
 					name: action.response.data.name,
 					username: action.response.data.username,
-					willRegister: false
 				},
 				errors: {
 					registration_errs: null,

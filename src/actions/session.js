@@ -5,7 +5,16 @@ function setCurrentUser(dispatch, response) {
 	dispatch({ type: "AUTHENTICATION_SUCCESS", response });
 }
 
-export function login(data) {
+export function login({ email, password }) {
+	let data = {
+		user: {
+			credential: {
+				email: email || "",
+				password_hash: password || ""
+			}
+		}
+	};
+
 	return dispatch => {
 		dispatch({ type: "AUTHENTICATION_REQUEST" });
 		return api.post("/sessions", data)
@@ -42,4 +51,8 @@ export function clearLoginErrs() {
 
 export function clearRegErrs() {
 	return dispatch => dispatch({ type: "CLEAR_REG_ERRS" });
+}
+
+export function registerRequest() {
+	return dispatch => dispatch({ type: "REGISTRATION_REQUEST" });
 }

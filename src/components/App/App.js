@@ -4,29 +4,30 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import '../../style/App.css';
 
-import Login from '../LoginForm/Login';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import LoginForm from '../LoginForm/LoginForm';
-import { login } from '../../actions/session';
+import FlatButton from 'material-ui/FlatButton';
+import { registerRequest } from '../../actions/session';
 
-// const paper_style = {
-//   height: 300,
-//   width: 300,
-//   margin: "1em",
-//   textAlign: 'center',
-//   display: 'inline-block'
-// };
-
-
-class App extends Component {
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			willRegister: false
-		};
+const form = (willRegister, onClick) => {
+	if (willRegister) {
+		return <RegisterForm />;
+	} else {
+		return (
+			<div>
+				<LoginForm />
+				<FlatButton
+					secondary={true}
+					label="Register"
+					onClick={onClick}
+				/>
+			</div>
+		);
 	}
+}
 
+
+export class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
@@ -41,9 +42,7 @@ class App extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-2 col-md-offset-4">
-								{ /* { !this.state.willRegister ? <Login btnAction={ login }/> : "" } */ }
-								<RegisterForm />
-								<LoginForm />
+								{ form(this.props.willRegister, this.props.registerRequest) }
               </div>
             </div>
           </div>
@@ -53,4 +52,12 @@ class App extends Component {
   }
 }
 
-export default connect()(App);
+
+const mapStateToProps = state => {
+	const { session } = state;
+	return {
+		willRegister: session.willRegister
+	};
+};
+
+export default connect(mapStateToProps, { registerRequest })(App);

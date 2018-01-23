@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Form from '../';
-import { shallowNoStore, mockStore } from '../../../testing_utils/fakeStore';
+import { shallowNoStore, mockStore } from '../../../testing_utils/mounts';
 
 describe("Form", () => {
 	let store, wrapper;

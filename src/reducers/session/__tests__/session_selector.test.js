@@ -1,4 +1,5 @@
-import { getRegistrationErrs, getLoginErrs, willAuthenticate } from "../session_selector";
+import { getRegistrationErrs, getLoginErrs, willAuthenticate, getUserInfo } from "../session_selector";
+import { initialState as sessionState } from '../session';
 
 describe("sesssion selector", () => {
 	it("should return registration errors present in redux state", () => {
@@ -49,6 +50,16 @@ describe("sesssion selector", () => {
 			};
 
 			expect(willAuthenticate(state)).toBe(true);
+		});
+	});
+
+	describe("getUserInfo", () => {
+		it("should return currentUser", () => {
+			const currentUser = { name: "john", username: "johnny5" };
+			const state = {
+				session: { ...sessionState, currentUser }
+			};
+			expect(getUserInfo(state)).toEqual(currentUser);
 		});
 	});
 });

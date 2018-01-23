@@ -17,13 +17,13 @@ it('renders without crashing', () => {
 	expect(wrapper).toBeDefined();
 });
 
-describe("FlatButton", () => {
+describe("Register FlatButton", () => {
 	let flatButton;
 	beforeEach(() => {
 		store = mockStore({ session: sessionState });
 		let context = { store };
 		wrapper = mount(<ConnectedApp />, { context });
-		flatButton = wrapper.find("FlatButton").first();
+		flatButton = wrapper.find("FlatButton").findWhere(fb => fb.props().label === "Register").first();
 	});
 
 	it("should exist if willRegister is false", () => {
@@ -32,10 +32,6 @@ describe("FlatButton", () => {
 
 	it("should be a secondary FlatButton", () => {
 		expect(flatButton.props().secondary).toBe(true);
-	});
-
-	it("should be named Register", () => {
-		expect(flatButton.props().label).toBe("Register");
 	});
 
 	it("should not exist if willRegister is true", () => {
@@ -48,7 +44,8 @@ describe("FlatButton", () => {
 
 	it("should call this.props.registerRequest when clicked", () => {
 		const func = jest.fn();
-		wrapper = shallowNoStore(<App registerRequest={func} />);
+		const currentUser = {name: null, username: null};
+		wrapper = shallowNoStore(<App registerRequest={func} currentUser={currentUser}/>);
 		wrapper.find("FlatButton").simulate("click");
 		expect(func).toHaveBeenCalled();
 	});
@@ -93,4 +90,56 @@ describe("Register component", () => {
 		wrapper = mount(<ConnectedApp />, { context });
 		expect(wrapper.find("RegisterForm").length).toBe(0);
 	});
+});
+
+describe("Dashboard", () => {
+	let db;
+	beforeEach(() => {
+		store = mockStore({
+			session: { ...sessionState, currentUser: { name: "john", username: "johnny5" }}
+		});
+		let context = { store };
+		wrapper = mount(<ConnectedApp />, { context });
+		db = wrapper.find("Dashboard");
+		expect(db.length).toBe(1);
+		db = db.first();
+	});
+
+	it("should not exist if there is no currentUser", () => {
+		store = mockStore({
+			session: sessionState
+		});
+		let context = { store };
+		wrapper = mount(<ConnectedApp />, { context });
+		expect(wrapper.find("Dashboard").length).toBe(0);
+	});
+
+	it("should have correct style attributes", () => {
+		const style = {
+			width: 500,
+			height: 450,
+			overflowY: 'auto'
+		};
+		const expected = {
+			cellHeight: 180,
+			style
+		};
+		expect(db.props().gridListProps).toMatchObject(expected);
+	});
+
+	it("should pass 'Welcome, (user's name) in the welcomeMessage property'", () => {
+		expect(db.props().welcomeMessage).toBe("Welcome, john");
+	});
+
+	describe("grids", () => {
+		it("should have 3 GridTile children", () => {
+			const children = db.children().find("GridTile");
+			expect(children.length).toBe(3);
+		});
+
+		it("should have 3 GridTile children that have the correct properties", () => {
+
+		});
+	});
+
 });

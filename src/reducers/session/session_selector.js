@@ -21,3 +21,7 @@ export function getLoginErrs({ session }) {
 export function willAuthenticate({ session }) {
 	return session.willAuthenticate;
 };
+
+export function getUserInfo({ session }) {
+	return session.currentUser;
+}

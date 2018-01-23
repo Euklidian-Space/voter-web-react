@@ -6,8 +6,13 @@ import '../../style/App.css';
 
 import RegisterForm from '../RegisterForm/RegisterForm';
 import LoginForm from '../LoginForm/LoginForm';
+import Dashboard from '../Dashboard/Dashboard';
 import FlatButton from 'material-ui/FlatButton';
+import { GridTile } from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import { MdMouse } from 'react-icons/lib/md';
 import { registerRequest } from '../../actions/session';
+import { getUserInfo } from '../../reducers/session/session_selector';
 
 const form = (willRegister, onClick) => {
 	if (willRegister) {
@@ -24,11 +29,30 @@ const form = (willRegister, onClick) => {
 			</div>
 		);
 	}
-}
+};
 
+const grids = names => () => {
+	return names.map(name => <GridTile key={name}/>);
+};
+
+const userPresent = obj => obj.name && obj.username;
+
+const gridListProps = {
+	style: {
+		width: 500,
+		height: 450,
+		overflowY: 'auto'
+	},
+	cellHeight: 180
+};
 
 export class App extends Component {
   render() {
+		const dashBoardProps = {
+			welcomeMessage: `Welcome, ${this.props.currentUser.name}`,
+			grids: grids(["1", "2", "3"]),
+			gridListProps
+		};
     return (
       <MuiThemeProvider>
         <div>
@@ -42,7 +66,12 @@ export class App extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-2 col-md-offset-4">
-								{ form(this.props.willRegister, this.props.registerRequest) }
+								{
+									userPresent(this.props.currentUser) ?
+										<Dashboard {...dashBoardProps} />
+									:
+										form(this.props.willRegister, this.props.registerRequest)
+								}
               </div>
             </div>
           </div>
@@ -56,7 +85,8 @@ export class App extends Component {
 const mapStateToProps = state => {
 	const { session } = state;
 	return {
-		willRegister: session.willRegister
+		willRegister: session.willRegister,
+		currentUser: getUserInfo(state)
 	};
 };
 

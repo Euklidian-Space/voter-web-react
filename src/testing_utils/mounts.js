@@ -22,5 +22,5 @@ export function mountWithStore(component, store) {
 	const context = {
 		store
 	};
-	return mount(store, { context });
+	return mount(component, { context });
 }

@@ -37,6 +37,15 @@ const grids = names => () => {
 
 const userPresent = obj => obj.name && obj.username;
 
+const form_or_dashboard = props => {
+  const { currentUser, willRegister, registerRequest } = props;
+	if (userPresent(currentUser)) {
+		return <Dashboard {...dashBoardProps} />
+	}
+	
+	return form(willRegister, registerRequest)
+};
+
 const gridListProps = {
 	style: {
 		width: 500,
@@ -53,6 +62,7 @@ export class App extends Component {
 			grids: grids(["1", "2", "3"]),
 			gridListProps
 		};
+
     return (
       <MuiThemeProvider>
         <div>
@@ -66,12 +76,7 @@ export class App extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-2 col-md-offset-4">
-								{
-									userPresent(this.props.currentUser) ?
-										<Dashboard {...dashBoardProps} />
-									:
-										form(this.props.willRegister, this.props.registerRequest)
-								}
+								{form_or_dashboard(this.props)}
               </div>
             </div>
           </div>

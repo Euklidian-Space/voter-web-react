@@ -70,13 +70,13 @@ describe("Dashboard", () => {
 
 });
 
-xdescribe("Create Poll FlatButton", () => {
-	beforeEach(() => {
-		const currentUser = { name: "john", username: "johhny5" };
-		store = mockStore({
-			session: { ...sessionState, currentUser }
-		});
-	});
+describe("Create Poll FlatButton", () => {
+	// beforeEach(() => {
+	// 	const currentUser = { name: "john", username: "johhny5" };
+	// 	store = mockStore({
+	// 		session: { ...sessionState, currentUser }
+	// 	});
+	// });
 
 	it("should have a label: 'Create Poll'", () => {
 		wrapper = shallowNoStore(<Dashboard />);
